@@ -9,7 +9,8 @@ import { PersonService } from "../shared/person.service";
 export class PersonListComponent implements OnInit {
  personArray =[];
  constructor(private personService: PersonService) { }
-
+ showDeletedMessage : boolean;
+ searchText:string = "";
  ngOnInit() {
          this.personService.getPersons().subscribe(
                  (list) => {
@@ -22,5 +23,14 @@ export class PersonListComponent implements OnInit {
                  });
 
 }
-
+ onDelete($key){
+     if(confirm("Are you sure you want to delete this record?")){
+       this.personService.deleteCustomer($key);
+       this.showDeletedMessage = true;
+       setTimeout(()=> this.showDeletedMessage=false , 3000)
+     }
+   }
+   filterCondition(person){
+     return person.fullName.toLowerCase().indexOf(this.searchText.toLowerCase()) != -1 ;
+   }
 }

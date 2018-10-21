@@ -27,4 +27,18 @@ export class PersonService {
                          mobile: person.mobile,
                  });
          }
+         updateCustomer(person){
+    this.personList.update(person.$key,{
+       fullName: person.fullName,
+        email: person.email,
+        mobile: person.mobile,
+        location:person.location
+    });
+  }
+  deleteCustomer($key: string){
+    this.personList.remove($key);
+  }
+  populateForm(customer){
+    this.form.setValue(customer);
+  }
 }

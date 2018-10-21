@@ -1,4 +1,8 @@
 <h1>List of all Persons</h1>
+<form class="form-inline">
+        <input name="searchInput" class="form-control" placeholder="Search" #searchInput="ngModel" [(ngModel)]="searchText" style="width: 80%;">
+        <button class="btn btn-outline-primary" (click)="searchText=''">x</button>
+</form>
 <table class="table table-sm">
         <thead>
                 <th>Full Name</th>
@@ -6,13 +10,14 @@
                 <th></th>
         </thead>
         <ng-container *ngFor="let person of personArray">
-                <tr class="table-dark">
+                <tr class="table-dark" *ngIf="filterCondition(person)">
                         <td>{{person.fullName}}</td>
                         <td>{{person.mobile}}</td>
                         <td>
-                                <button class="btn btn-info">Edit</button>
-                                <button class="btn btn-danger">Delete</button>
+                                <button class="btn btn-info" (click)="personService.populateForm(person)">Edit</button>
+                                <button class="btn btn-danger" (click)="onDelete(person.$key)">Delete</button>
                         </td>
                 </tr>
         </ng-container>
 </table>
+<div class="alert alert-danger" *ngIf="showDeletedMessage">Deleted successfully</div>
